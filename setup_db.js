@@ -1,14 +1,9 @@
 const { Pool } = require('pg');
 
-const config = {
-    user: "postgres", // fallback to postgres if david doesn't work
-    host: "localhost",
-    database: "metal_db",
-    password: "holaadios123",
-    port: 5432,
-};
-
-const pool = new Pool(config);
+const pool = new Pool({
+    connectionString: process.env.DATABASE_URL || "postgres://postgres:holaadios123@localhost:5432/metal_db",
+    ssl: process.env.DATABASE_URL ? { rejectUnauthorized: false } : false
+});
 
 const schema = `
 CREATE TABLE IF NOT EXISTS bandas (
